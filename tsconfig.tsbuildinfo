@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/dimension.tsx","./src/preview.tsx","./src/tools.tsx","./src/geometry.ts","./src/main.tsx","./src/model.test.tsx","./src/model.ts","./src/motion.ts","./src/persistence.ts","./src/renderer.ts","./src/testsetup.ts","./src/units.test.tsx","./src/units.ts","./src/validation.ts","./src/vite-env.d.ts","./vite.config.ts"],"version":"5.8.3"}
