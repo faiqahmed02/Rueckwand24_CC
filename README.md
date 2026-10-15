@@ -29,6 +29,40 @@ Anschließend die im Terminal angezeigte Adresse öffnen, normalerweise **[http:
 
 Bei späteren Starts genügt `npm run dev`, solange die Abhängigkeiten bereits installiert sind.
 
+### Fehlerbehebung bei `npm ci` (macOS)
+
+Wenn `npm ci` mit `EACCES: permission denied` oder `EEXIST` unter `~/.npm/_cacache` abbricht, liegt das typischerweise an fehlenden Schreibrechten oder einem Konflikt im lokalen **npm-Cache**. Das ist kein Hinweis auf einen Fehler im Quellcode des Plattengenerators.
+
+1. Node-Version prüfen (für dieses Projekt: **Node.js 24**):
+
+   ```sh
+   node -v
+   npm -v
+   ```
+
+2. Eigentümer des aktuell konfigurierten npm-Caches auf den angemeldeten Benutzer setzen (macOS fragt gegebenenfalls nach dem Benutzerpasswort):
+
+   ```sh
+   sudo chown -R "$(id -un)":"$(id -gn)" "$(npm config get cache)"
+   ```
+
+3. Cache prüfen und Abhängigkeiten erneut installieren:
+
+   ```sh
+   npm cache verify
+   npm ci
+   npm run dev
+   ```
+
+Falls die Installation weiterhin an einer bestehenden Cache-Datei scheitert, stattdessen einen **neuen Cache im Benutzerverzeichnis** verwenden:
+
+```sh
+npm ci --cache "$HOME/.npm-r24-cache"
+npm run dev
+```
+
+Die Meldung `npm warn deprecated whatwg-encoding@3.1.1` ist eine Warnung über eine indirekte Abhängigkeit und verhindert die Installation für sich genommen nicht. **Nicht** `sudo npm ci` oder `npm ci --force` als Workaround ausführen: Das kann weitere Berechtigungsprobleme verursachen bzw. Prüfungen umgehen.
+
 ### Produktionsbuild prüfen
 
 ```sh
